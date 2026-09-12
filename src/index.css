@@ -1,0 +1,219 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.phone-input-field .PhoneInputInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: inherit;
+  color: inherit;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;
+    --foreground: 20 14.3% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    --primary: 16 100% 50%;
+    --primary-foreground: 60 9.1% 97.8%;
+
+    --secondary: 60 4.8% 95.9%;
+    --secondary-foreground: 24 9.8% 10%;
+
+    --muted: 60 4.8% 95.9%;
+    --muted-foreground: 25 5.3% 44.7%;
+
+    --accent: 60 4.8% 95.9%;
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 20 5.9% 90%;
+    --input: 20 5.9% 90%;
+    --ring: 16 100% 50%;
+
+    --radius: 0.5rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    /* Garantir scroll suave e adequado em dispositivos móveis */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-overflow-scrolling: touch;
+    /* Adicionar padding inferior para garantir espaco para scroll */
+    padding-bottom: 120px;
+  }
+  
+  /* Garantir que containers principais permitam scroll */
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/* Mobile-specific fixes */
+@media (max-width: 768px) {
+  body {
+    /* Padding extra no mobile para garantir acesso aos botões */
+    padding-bottom: 140px;
+  }
+  
+  /* Garantir que elementos não bloqueiem o scroll */
+  .container {
+    padding-bottom: 2rem;
+  }
+  
+  /* Melhorar a área de toque dos botões em mobile */
+  .add-to-cart-btn {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Melhorar scroll em dialogs para mobile - usando dvh para considerar a barra de URL */
+  [role="dialog"] {
+    max-height: 85vh !important;
+    max-height: 85dvh !important;
+  }
+
+  /* Modal de produto ocupa a tela inteira no mobile */
+  [role="dialog"].product-fullscreen-dialog {
+    max-height: 100dvh !important;
+    height: 100dvh !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+
+  /* Scroll nativo otimizado para mobile */
+  .dialog-scroll-content {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    overflow-y: auto;
+  }
+
+  /* Rodapé dos dialogs: usa layout flex, sem sticky (evita sobreposição) */
+  [role="dialog"] .dialog-footer {
+    position: relative;
+    z-index: 10;
+  }
+
+}
+
+/* Food delivery specific styles */
+.food-category.active {
+  @apply font-bold;
+}
+
+.add-to-cart-btn {
+  @apply bg-food-green text-white py-1 px-4 rounded-full transition-all hover:bg-opacity-90;
+  /* Melhorar usabilidade em mobile */
+  touch-action: manipulation;
+  min-height: 40px;
+}
+
+.counter-btn {
+  @apply flex items-center justify-center w-7 h-7 bg-gray-100 rounded-full text-gray-700 hover:bg-gray-200;
+  /* Melhorar área de toque em mobile */
+  touch-action: manipulation;
+}
+
+/* Melhorar botões de counter no dialog */
+.touch-action-manipulation {
+  touch-action: manipulation;
+}
+
+/* Cart animation */
+.cart-animation {
+  animation: cartBounce 0.5s ease;
+}
+
+@keyframes cartBounce {
+  0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+  40% {transform: translateY(-10px);}
+  60% {transform: translateY(-5px);}
+}
+
+/* Food item hover effect */
+.food-item {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  /* Garantir que o card não interfira no scroll */
+  touch-action: pan-y;
+}
+
+.food-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Mobile scroll fixes */
+@media (max-width: 768px) {
+  .food-item:hover {
+    /* Desabilitar hover em mobile para melhor performance de scroll */
+    transform: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+}
+.just {
+  text-align: justify;
+}
+
+/* Dark analytics theme used by the Marketing Metrics page */
+.marketing-metrics-theme {
+  --background: 220 20% 8%;
+  --foreground: 0 0% 98%;
+  --card: 220 18% 12%;
+  --card-foreground: 0 0% 98%;
+  --popover: 220 18% 10%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 16 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 220 15% 20%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 220 15% 22%;
+  --muted-foreground: 220 10% 60%;
+  --accent: 220 15% 22%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 15% 22%;
+  --input: 220 15% 22%;
+  --ring: 16 100% 50%;
+  color-scheme: dark;
+}
+
+.marketing-metrics-theme .recharts-cartesian-grid-horizontal line,
+.marketing-metrics-theme .recharts-cartesian-grid-vertical line {
+  stroke: hsl(var(--muted) / 0.3);
+}
+
+.marketing-metrics-theme .recharts-text.recharts-cartesian-axis-tick-value {
+  fill: hsl(var(--muted-foreground));
+}
+
+.marketing-metrics-theme .recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: hsl(var(--card)) !important;
+  border-color: hsl(var(--border)) !important;
+  color: hsl(var(--card-foreground)) !important;
+}

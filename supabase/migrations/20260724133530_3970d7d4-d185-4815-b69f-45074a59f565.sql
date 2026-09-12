@@ -1,0 +1,1 @@
+ALTER TABLE public.variation_groups ADD COLUMN IF NOT EXISTS hide_main_quantity_selector boolean NOT NULL DEFAULT false;

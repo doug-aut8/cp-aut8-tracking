@@ -1,0 +1,3 @@
+ALTER TABLE public.empresa_info
+ADD COLUMN IF NOT EXISTS horarios_funcionamento jsonb NOT NULL DEFAULT
+  '{"0":{"closed":true,"open":"18:00","close":"23:00"},"1":{"closed":false,"open":"18:00","close":"23:00"},"2":{"closed":false,"open":"18:00","close":"23:00"},"3":{"closed":false,"open":"18:00","close":"23:00"},"4":{"closed":false,"open":"18:00","close":"23:00"},"5":{"closed":false,"open":"18:00","close":"23:59"},"6":{"closed":false,"open":"18:00","close":"23:59"}}'::jsonb;
