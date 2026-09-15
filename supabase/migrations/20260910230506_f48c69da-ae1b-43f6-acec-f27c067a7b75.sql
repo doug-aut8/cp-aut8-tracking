@@ -1,0 +1,1 @@
+ALTER TABLE public.product_events ADD COLUMN IF NOT EXISTS items jsonb;
