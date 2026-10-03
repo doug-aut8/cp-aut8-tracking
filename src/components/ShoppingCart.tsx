@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
-import { X, Minus, Plus, ShoppingBag, Trash2, Tag, Gift, ArrowUp, Home } from "lucide-react";
+import { X, Minus, Plus, ShoppingBag, Trash2, Tag, Gift, ArrowUp, Home, MessageCircle } from "lucide-react";
+import { useChat } from "@/contexts/ChatContext";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,6 +54,7 @@ const ShoppingCart: React.FC = () => {
   const { currentUser } = useAuth();
   const { settings } = useLayoutSettings();
   const navigate = useNavigate();
+  const { openChat } = useChat();
   const location = useLocation();
   const { toast } = useToast();
   const [variations, setVariations] = useState<Variation[]>([]);
@@ -442,6 +444,19 @@ const ShoppingCart: React.FC = () => {
         aria-label="Início"
       >
         <Home className="h-5 w-5" />
+      </button>
+
+      {/* Fale Conosco Button (ao lado do "Home") */}
+      <button
+        className={cn(
+          "fixed bottom-6 z-30 w-12 h-12 rounded-xl shadow-lg transition-all duration-300 flex items-center justify-center",
+          showBackToTop ? "left-[9rem]" : "left-[5.25rem]"
+        )}
+        onClick={openChat}
+        style={{ backgroundColor: settings.cor_botoes, color: settings.cor_fonte_botoes }}
+        aria-label="Fale Conosco"
+      >
+        <MessageCircle className="h-5 w-5" />
       </button>
 
       {/* Cart Overlay */}

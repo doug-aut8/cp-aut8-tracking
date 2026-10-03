@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X, MessageCircle, UserCircle2, Pizza } from "lucide-react";
 import { useHalfPizza } from "@/contexts/HalfPizzaContext";
-import ChatAssistant from "@/components/ChatAssistant";
+import { useChat } from "@/contexts/ChatContext";
 import PromoPopup from "@/components/PromoPopup";
 import ProfileDrawer from "@/components/ProfileDrawer";
 import { useCart } from "@/contexts/CartContext";
@@ -39,7 +39,7 @@ const Index = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { settings } = useLayoutSettings();
   const runBannerAction = useBannerAction();
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const { openChat } = useChat();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [rewardsCount, setRewardsCount] = useState(0);
   const activeOrdersCount = useActiveOrdersCount();
@@ -339,7 +339,7 @@ const Index = () => {
             <div className="grid grid-cols-2 gap-2">
               <Button
                 variant="outline"
-                onClick={() => setIsChatOpen(true)}
+                onClick={openChat}
                 className="w-full px-2 text-[11px] md:text-sm h-9 flex items-center justify-center gap-1"
                 style={{ backgroundColor: settings.cor_botoes, color: settings.cor_fonte_botoes }}
               >
@@ -532,7 +532,6 @@ const Index = () => {
       </div>
 
       <PromoPopup />
-      <ChatAssistant isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
       <ProfileDrawer open={isProfileOpen} onOpenChange={setIsProfileOpen} onRewardsCountChange={setRewardsCount} />
     </div>
   );

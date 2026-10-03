@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { CartProvider } from "@/contexts/CartContext";
 import { HalfPizzaProvider } from "@/contexts/HalfPizzaContext";
+import { ChatProvider } from "@/contexts/ChatContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { LayoutSettingsProvider } from "@/hooks/useLayoutSettings";
 import { useAuth } from "@/hooks/useAuth";
@@ -238,6 +239,7 @@ const App = () => (
     <TooltipProvider>
       <AuthProvider>
         <LayoutSettingsProvider>
+          <ChatProvider>
           <CartProvider>
             <HalfPizzaProvider>
             <Toaster />
@@ -247,6 +249,7 @@ const App = () => (
             </BrowserRouter>
             </HalfPizzaProvider>
           </CartProvider>
+          </ChatProvider>
         </LayoutSettingsProvider>
       </AuthProvider>
     </TooltipProvider>
