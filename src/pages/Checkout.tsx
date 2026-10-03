@@ -1298,7 +1298,7 @@ const proceedWithOrder = async () => {
         <Card>
           <CardContent className="flex flex-col items-center justify-center p-8">
             <h2 className="text-xl font-semibold mb-4">Seu carrinho está vazio</h2>
-            <Button onClick={() => navigate("/")} variant="outline">
+            <Button onClick={() => navigate("/cardapio")} variant="outline">
               Voltar ao cardápio
             </Button>
           </CardContent>
