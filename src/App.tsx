@@ -239,6 +239,7 @@ const App = () => (
     <TooltipProvider>
       <AuthProvider>
         <LayoutSettingsProvider>
+          <ChatProvider>
           <CartProvider>
             <HalfPizzaProvider>
             <Toaster />
@@ -248,6 +249,7 @@ const App = () => (
             </BrowserRouter>
             </HalfPizzaProvider>
           </CartProvider>
+          </ChatProvider>
         </LayoutSettingsProvider>
       </AuthProvider>
     </TooltipProvider>
