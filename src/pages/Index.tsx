@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, X, MessageCircle, UserCircle2, Pizza } from "lucide-react";
 import { useHalfPizza } from "@/contexts/HalfPizzaContext";
-import ChatAssistant from "@/components/ChatAssistant";
+import { useChat } from "@/contexts/ChatContext";
 import PromoPopup from "@/components/PromoPopup";
 import ProfileDrawer from "@/components/ProfileDrawer";
 import { useCart } from "@/contexts/CartContext";
