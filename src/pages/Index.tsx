@@ -305,8 +305,7 @@ const Index = () => {
   if (isLoading) {
     return (
       <div style={{ backgroundColor: settings.cor_background, minHeight: '100vh' }}>
-        <div className="w-full max-w-[1000px] mx-auto aspect-[4/1] bg-muted animate-pulse" />
-        <div className="container mx-auto px-4 -mt-4 md:-mt-16 relative z-10">
+        <div className="container mx-auto px-4 mt-0 md:mt-4 relative z-10">
           <div className="rounded-lg bg-muted animate-pulse h-24 md:h-28" />
         </div>
         <div className="container mx-auto px-4 mt-6 space-y-6">

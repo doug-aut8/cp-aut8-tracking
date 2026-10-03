@@ -13,8 +13,7 @@ const RestaurantHeader: React.FC<RestaurantHeaderProps> = ({ actions, onBannerCl
   if (loading) {
     return (
       <div className="relative">
-        <div className="hidden md:block w-full max-w-[1000px] mx-auto aspect-[4/1] bg-muted animate-pulse" />
-        <div className="container mx-auto px-4 relative -mt-[4.9rem] md:-mt-[7rem] z-10 mb-1">
+        <div className="container mx-auto px-4 relative mt-0 md:mt-4 z-10 mb-1">
           <div className="rounded-lg shadow-lg p-3 sm:p-4 bg-muted animate-pulse h-24" />
         </div>
       </div>
@@ -28,36 +27,8 @@ const RestaurantHeader: React.FC<RestaurantHeaderProps> = ({ actions, onBannerCl
 
   return (
     <div className="relative">
-      {/* Banner desktop com proporção 1000x250 (4:1) */}
-      <div
-        className={`hidden md:block w-full max-w-[1000px] mx-auto aspect-[4/1] overflow-hidden ${onBannerClick ? "cursor-pointer" : ""}`}
-        onClick={onBannerClick}
-        role={onBannerClick ? "button" : undefined}
-        style={{
-          background: `linear-gradient(to left, ${settings.cor_secundaria}, ${settings.cor_primaria})`,
-        }}
-      >
-        <picture>
-          <source media="(min-width: 768px)" srcSet={settings.empresa_banner_url} />
-          <img
-            src={mobileUrl}
-            alt={settings.empresa_nome}
-            loading="eager"
-            fetchPriority="high"
-            decoding="async"
-            width="1000"
-            height="250"
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = "/images/restaurant-banner.jpg";
-            }}
-          />
-        </picture>
-      </div>
-
-      {/* Container principal */}
-      <div className="w-full md:container mx-auto px-0 md:px-4 relative mt-0 md:-mt-[7rem] z-10">
+      {/* Container principal (banner desktop removido) */}
+      <div className="w-full md:container mx-auto px-0 md:px-4 relative mt-0 md:mt-4 z-10">
         <div
           className="rounded-none md:rounded-lg shadow-sm md:shadow-lg border-b border-muted/60 md:border pt-3 pb-1 px-3 sm:p-4"
           style={{ backgroundColor: settings.cor_background_header }}
