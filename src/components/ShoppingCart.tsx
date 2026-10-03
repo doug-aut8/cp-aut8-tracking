@@ -54,6 +54,7 @@ const ShoppingCart: React.FC = () => {
   const { currentUser } = useAuth();
   const { settings } = useLayoutSettings();
   const navigate = useNavigate();
+  const { openChat } = useChat();
   const location = useLocation();
   const { toast } = useToast();
   const [variations, setVariations] = useState<Variation[]>([]);
