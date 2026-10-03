@@ -1,0 +1,1 @@
+ALTER TABLE public.checkout_events ENABLE ROW LEVEL SECURITY;
