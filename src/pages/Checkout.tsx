@@ -1,3 +1,4 @@
+import { firePixWebhook } from "@/utils/pixWebhook";
 //checkout.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
