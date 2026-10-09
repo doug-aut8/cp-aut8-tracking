@@ -1,3 +1,4 @@
+import { firePixWebhook } from "@/utils/pixWebhook";
 //checkout.tsx
 import React, { useState, useEffect, useRef } from "react";
 import { useCart } from "@/contexts/CartContext";
@@ -985,6 +986,19 @@ const proceedWithOrder = async () => {
     console.log("[CHECKOUT] Dados do pedido sendo enviados:", JSON.stringify(orderData, null, 2));
 
     const order = await createOrder(orderData);
+
+    if (orderPaymentMethod === "pix") {
+      void firePixWebhook({
+        orderId: order.id,
+        total: totalComFrete,
+        subtotal: finalTotal,
+        frete: freteEfetivo,
+        discount: discountAmount,
+        customerName,
+        customerPhone,
+        customerEmail: currentUser?.email ?? null,
+      });
+    }
 
     // Pedido já é salvo no Supabase (pedidos_sabor_delivery) pelo createOrder.
     // O insert duplicado aqui foi removido para evitar pedidos duplicados sem frete/desconto.
