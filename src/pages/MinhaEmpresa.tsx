@@ -23,6 +23,9 @@ export default function MinhaEmpresa() {
   const [complemento, setComplemento] = useState("");
   const [cnpj, setCnpj] = useState("");
   const [sobre, setSobre] = useState("");
+  const [pixNome, setPixNome] = useState("");
+  const [pixChave, setPixChave] = useState("");
+  const [pixCidade, setPixCidade] = useState("");
   const [loading, setLoading] = useState(false);
   const [empresaId, setEmpresaId] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
@@ -128,6 +131,9 @@ export default function MinhaEmpresa() {
         setComplemento(empresaData.complemento || "");
         setCnpj((empresaData as any).cnpj || "");
         setSobre((empresaData as any).sobre || "");
+        setPixNome((empresaData as any).pix_nome_recebedor || "");
+        setPixChave((empresaData as any).pix_chave || "");
+        setPixCidade((empresaData as any).pix_cidade || "");
         const h = (empresaData as any).horarios_funcionamento;
         if (h && typeof h === "object") {
           setHorarios({ ...DEFAULT_SCHEDULE, ...h });
@@ -193,6 +199,9 @@ export default function MinhaEmpresa() {
       complemento,
       cnpj,
       sobre,
+      pix_nome_recebedor: pixNome || null,
+      pix_chave: pixChave || null,
+      pix_cidade: pixCidade || null,
       endereco: enderecoCompleto,
       pais: "Brasil",
       horarios_funcionamento: horarios,
@@ -393,6 +402,25 @@ export default function MinhaEmpresa() {
               placeholder="Fale sobre a sua empresa, como fazer pedidos, plano de fidelidade, etc."
               className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#fa6500]"
             />
+          </div>
+
+          <hr className="my-4" />
+
+          {/* Configurações de Pix */}
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold text-gray-800">Configurações de Pix</h2>
+            <div>
+              <label className="block font-medium mb-1 text-gray-700">Nome do Recebedor</label>
+              <input type="text" value={pixNome} onChange={(e) => setPixNome(e.target.value)} placeholder="Nome Exato do dono da conta" className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#fa6500]" />
+            </div>
+            <div>
+              <label className="block font-medium mb-1 text-gray-700">Chave PIX</label>
+              <input type="text" value={pixChave} onChange={(e) => setPixChave(e.target.value)} placeholder="Chave PIX" className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#fa6500]" />
+            </div>
+            <div>
+              <label className="block font-medium mb-1 text-gray-700">Cidade</label>
+              <input type="text" value={pixCidade} onChange={(e) => setPixCidade(e.target.value)} placeholder="Cidade onde a conta foi aberta" className="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-[#fa6500]" />
+            </div>
           </div>
 
           <hr className="my-4" />
