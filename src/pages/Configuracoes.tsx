@@ -29,6 +29,8 @@ const Configuracoes = () => {
   const [webhookEventos, setWebhookEventos] = useState("");
   const [webhookFidelidade, setWebhookFidelidade] = useState("");
   const [savingWebhookFidelidade, setSavingWebhookFidelidade] = useState(false);
+  const [webhookPix, setWebhookPix] = useState("");
+  const [savingWebhookPix, setSavingWebhookPix] = useState(false);
   const [tempoAbandonedCart, setTempoAbandonedCart] = useState("25");
   const [whatsappVerificationEnabled, setWhatsappVerificationEnabled] = useState(true);
   const [savingWhatsappToggle, setSavingWhatsappToggle] = useState(false);
@@ -127,7 +129,7 @@ const Configuracoes = () => {
       const { data, error } = await supabase
         .from("configuracoes")
         .select("chave, valor")
-        .in("chave", ["cron_ga4_schedule", "webhook_chatassistant", "mensagem_atendimento", "webhook_status_pedido", "webhook_autenticacao", "webhook_eventos", "webhook_fidelidade", "tempo_disparo_abandoned_cart", "whatsapp_verification_enabled", "comunicacao_instancia", "comunicacao_apikey", "auto_print_on_accept", "auto_print_on_new_order", "stripe_enabled", "stripe_mode", "stripe_publishable_key", "stripe_secret_key", "stripe_webhook_secret", "payment_card_delivery_enabled", "payment_cash_enabled", "pagina_inicial", "som_novo_pedido_enabled", "som_novo_pedido_url", "imprimir_canhoto"]);
+        .in("chave", ["webhook_pix", "cron_ga4_schedule", "webhook_chatassistant", "mensagem_atendimento", "webhook_status_pedido", "webhook_autenticacao", "webhook_eventos", "webhook_fidelidade", "tempo_disparo_abandoned_cart", "whatsapp_verification_enabled", "comunicacao_instancia", "comunicacao_apikey", "auto_print_on_accept", "auto_print_on_new_order", "stripe_enabled", "stripe_mode", "stripe_publishable_key", "stripe_secret_key", "stripe_webhook_secret", "payment_card_delivery_enabled", "payment_cash_enabled", "pagina_inicial", "som_novo_pedido_enabled", "som_novo_pedido_url", "imprimir_canhoto"]);
 
       if (error) throw error;
 
@@ -139,6 +141,7 @@ const Configuracoes = () => {
           if (row.chave === "webhook_autenticacao" && row.valor) setWebhookAuth(row.valor);
           if (row.chave === "webhook_eventos" && row.valor) setWebhookEventos(row.valor);
           if (row.chave === "webhook_fidelidade" && row.valor) setWebhookFidelidade(row.valor);
+          if (row.chave === "webhook_pix" && row.valor) setWebhookPix(row.valor);
           if (row.chave === "tempo_disparo_abandoned_cart" && row.valor) setTempoAbandonedCart(row.valor);
           if (row.chave === "mensagem_atendimento" && row.valor) setMensagemAtendimento(row.valor);
           if (row.chave === "whatsapp_verification_enabled") setWhatsappVerificationEnabled(row.valor !== "false");
@@ -590,6 +593,44 @@ const Configuracoes = () => {
               <Button className="w-full" disabled={applyingCron} onClick={handleUpdateCron}>
                 <RefreshCw className={`h-4 w-4 mr-2 ${applyingCron ? "animate-spin" : ""}`} />
                 {applyingCron ? "Atualizando Agendamento..." : "Salvar e Aplicar Agendamento"}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Webhook PIX */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <CreditCard className="h-6 w-6 text-primary" />
+              <div>
+                <CardTitle>Webhook PIX</CardTitle>
+                <CardDescription>URL acionada quando um pedido é finalizado com pagamento via PIX.</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="webhook_pix">URL do Webhook</Label>
+                <Input id="webhook_pix" value={webhookPix} onChange={(e) => setWebhookPix(e.target.value)} placeholder="https://seu-webhook.com/pix" />
+                <p className="text-sm text-muted-foreground">
+                  Recebe os dados de Pix da empresa, dados do cliente, valor e código do pedido, e os dados de comunicação.
+                </p>
+              </div>
+              <Button className="w-full" disabled={savingWebhookPix} onClick={async () => {
+                setSavingWebhookPix(true);
+                try {
+                  await saveConfigValue("webhook_pix", webhookPix);
+                  toast({ title: "Sucesso!", description: "Webhook PIX salvo." });
+                } catch (error: any) {
+                  toast({ title: "Erro ao salvar", description: error.message, variant: "destructive" });
+                } finally {
+                  setSavingWebhookPix(false);
+                }
+              }}>
+                <RefreshCw className={`h-4 w-4 mr-2 ${savingWebhookPix ? "animate-spin" : ""}`} />
+                {savingWebhookPix ? "Salvando..." : "Salvar Webhook PIX"}
               </Button>
             </div>
           </CardContent>
