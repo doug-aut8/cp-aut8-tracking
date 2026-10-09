@@ -355,6 +355,13 @@ const MarketingMetrics: React.FC = () => {
         },
       },
       {
+        label: "Últimos 7 dias",
+        range: {
+          from: subDays(today, 6),
+          to: today,
+        },
+      },
+      {
         label: "Últimos 30 dias",
         range: {
           from: subDays(today, 29),

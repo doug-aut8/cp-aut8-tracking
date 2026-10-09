@@ -23,6 +23,7 @@ export type Database = {
           name: string
           order: number
           show_in_category_nav: boolean
+          show_in_nav: boolean
           updated_at: string
           visible: boolean
         }
@@ -34,6 +35,7 @@ export type Database = {
           name: string
           order?: number
           show_in_category_nav?: boolean
+          show_in_nav?: boolean
           updated_at?: string
           visible?: boolean
         }
@@ -45,6 +47,7 @@ export type Database = {
           name?: string
           order?: number
           show_in_category_nav?: boolean
+          show_in_nav?: boolean
           updated_at?: string
           visible?: boolean
         }
@@ -307,6 +310,38 @@ export type Database = {
         }
         Relationships: []
       }
+      empresa_credenciais: {
+        Row: {
+          created_at: string
+          empresa_id: string
+          id: string
+          superfrete_token: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          empresa_id: string
+          id?: string
+          superfrete_token?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          empresa_id?: string
+          id?: string
+          superfrete_token?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "empresa_credenciais_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: true
+            referencedRelation: "empresa_info"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       empresa_info: {
         Row: {
           bairro: string | null
@@ -331,7 +366,6 @@ export type Database = {
           sobre: string | null
           superfrete_sandbox: boolean
           superfrete_servicos: Json
-          superfrete_token: string | null
           telefone: string | null
           updated_at: string | null
           user_id: string
@@ -360,7 +394,6 @@ export type Database = {
           sobre?: string | null
           superfrete_sandbox?: boolean
           superfrete_servicos?: Json
-          superfrete_token?: string | null
           telefone?: string | null
           updated_at?: string | null
           user_id: string
@@ -389,7 +422,6 @@ export type Database = {
           sobre?: string | null
           superfrete_sandbox?: boolean
           superfrete_servicos?: Json
-          superfrete_token?: string | null
           telefone?: string | null
           updated_at?: string | null
           user_id?: string
@@ -478,10 +510,8 @@ export type Database = {
         Row: {
           contagem_pizzas: number
           criado_em: string | null
-          eventos: Json
           id: string
           nome_cliente: string | null
-          regra_id: string | null
           telefone_cliente: string
           ultima_atualizacao: string | null
           valor_gasto_pizzas: number
@@ -489,10 +519,8 @@ export type Database = {
         Insert: {
           contagem_pizzas?: number
           criado_em?: string | null
-          eventos?: Json
           id?: string
           nome_cliente?: string | null
-          regra_id?: string | null
           telefone_cliente: string
           ultima_atualizacao?: string | null
           valor_gasto_pizzas?: number
@@ -500,10 +528,8 @@ export type Database = {
         Update: {
           contagem_pizzas?: number
           criado_em?: string | null
-          eventos?: Json
           id?: string
           nome_cliente?: string | null
-          regra_id?: string | null
           telefone_cliente?: string
           ultima_atualizacao?: string | null
           valor_gasto_pizzas?: number
@@ -626,6 +652,7 @@ export type Database = {
           height_cm: number | null
           hidden_in_menu: boolean
           id: string
+          "id-teste": string | null
           image: string
           is_half_pizza: boolean | null
           length_cm: number | null
@@ -664,6 +691,7 @@ export type Database = {
           height_cm?: number | null
           hidden_in_menu?: boolean
           id: string
+          "id-teste"?: string | null
           image?: string
           is_half_pizza?: boolean | null
           length_cm?: number | null
@@ -702,6 +730,7 @@ export type Database = {
           height_cm?: number | null
           hidden_in_menu?: boolean
           id?: string
+          "id-teste"?: string | null
           image?: string
           is_half_pizza?: boolean | null
           length_cm?: number | null
@@ -1007,7 +1036,6 @@ export type Database = {
           capi_ativo: boolean
           gtm_container_id: string | null
           id: number
-          meta_access_token: string | null
           meta_pixel_id: string | null
           meta_test_event_code: string | null
           updated_at: string | null
@@ -1016,7 +1044,6 @@ export type Database = {
           capi_ativo?: boolean
           gtm_container_id?: string | null
           id?: number
-          meta_access_token?: string | null
           meta_pixel_id?: string | null
           meta_test_event_code?: string | null
           updated_at?: string | null
@@ -1025,10 +1052,33 @@ export type Database = {
           capi_ativo?: boolean
           gtm_container_id?: string | null
           id?: number
-          meta_access_token?: string | null
           meta_pixel_id?: string | null
           meta_test_event_code?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tags_rastreamento_privado: {
+        Row: {
+          created_at: string
+          id: string
+          meta_access_token: string | null
+          tag_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meta_access_token?: string | null
+          tag_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meta_access_token?: string | null
+          tag_id?: number
+          updated_at?: string
         }
         Relationships: []
       }
