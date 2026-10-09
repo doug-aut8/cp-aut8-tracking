@@ -36,7 +36,8 @@ export const firePixWebhook = async (input: PixWebhookInput) => {
       },
       cliente: {
         nome: input.customerName,
-        whatsapp: input.customerPhone,
+        // Sempre em dígitos puros com DDI 55: 5511930047549 (celular) / 551144444444 (fixo)
+        whatsapp: phoneDigitsBr(input.customerPhone) || null,
         email: input.customerEmail || null,
       },
       pedido: {
