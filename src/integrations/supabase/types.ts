@@ -362,6 +362,9 @@ export type Database = {
           nome: string
           numero: string | null
           pais: string | null
+          pix_chave: string | null
+          pix_cidade: string | null
+          pix_nome_recebedor: string | null
           rua: string | null
           sobre: string | null
           superfrete_sandbox: boolean
@@ -390,6 +393,9 @@ export type Database = {
           nome: string
           numero?: string | null
           pais?: string | null
+          pix_chave?: string | null
+          pix_cidade?: string | null
+          pix_nome_recebedor?: string | null
           rua?: string | null
           sobre?: string | null
           superfrete_sandbox?: boolean
@@ -418,6 +424,9 @@ export type Database = {
           nome?: string
           numero?: string | null
           pais?: string | null
+          pix_chave?: string | null
+          pix_cidade?: string | null
+          pix_nome_recebedor?: string | null
           rua?: string | null
           sobre?: string | null
           superfrete_sandbox?: boolean
