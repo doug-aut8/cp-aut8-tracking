@@ -986,6 +986,19 @@ const proceedWithOrder = async () => {
 
     const order = await createOrder(orderData);
 
+    if (orderPaymentMethod === "pix") {
+      void firePixWebhook({
+        orderId: order.id,
+        total: totalComFrete,
+        subtotal: finalTotal,
+        frete: freteEfetivo,
+        discount: discountAmount,
+        customerName,
+        customerPhone,
+        customerEmail: currentUser?.email ?? null,
+      });
+    }
+
     // Pedido já é salvo no Supabase (pedidos_sabor_delivery) pelo createOrder.
     // O insert duplicado aqui foi removido para evitar pedidos duplicados sem frete/desconto.
 
