@@ -1,5 +1,6 @@
 import { supabase } from "@/integrations/supabase/client";
 import { withComunicacaoMeta } from "@/utils/webhookPayload";
+import { phoneDigitsBr } from "@/utils/phoneUtils";
 
 interface PixWebhookInput {
   orderId: string;
