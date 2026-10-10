@@ -1882,6 +1882,11 @@ const MarketingMetrics: React.FC = () => {
                       ? `${productRanking.topViewed[0].productName} — ${formatNumber(productRanking.topViewed[0].value)}`
                       : "Sem dados"
                 }
+                subtitle={
+                  !productsLoading && productRanking?.topViewed[0]
+                    ? `Categoria: ${productRanking.topViewed[0].categoryName}`
+                    : undefined
+                }
                 selected={selectedProductMetric === "productViews"}
                 onClick={() => {
                   setSelectedProductMetric("productViews");
@@ -1897,6 +1902,11 @@ const MarketingMetrics: React.FC = () => {
                     : productRanking?.topSold[0]
                       ? `${productRanking.topSold[0].productName} — ${formatNumber(productRanking.topSold[0].value)}`
                       : "Sem dados"
+                }
+                subtitle={
+                  !productsLoading && productRanking?.topSold[0]
+                    ? `Categoria: ${productRanking.topSold[0].categoryName}`
+                    : undefined
                 }
                 selected={selectedProductMetric === "productSales"}
                 onClick={() => {
@@ -1943,11 +1953,16 @@ const MarketingMetrics: React.FC = () => {
                     ).map((row, i) => (
                       <div
                         key={row.productId}
-                        className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-0 text-sm"
+                        className="flex items-start justify-between gap-3 border-b border-border pb-2 last:border-0 text-sm"
                       >
-                        <span className="truncate">
-                          <span className="text-muted-foreground mr-2">{i + 1}.</span>
-                          {row.productName}
+                        <span className="min-w-0">
+                          <span className="block truncate">
+                            <span className="text-muted-foreground mr-2">{i + 1}.</span>
+                            {row.productName}
+                          </span>
+                          <span className="block text-xs font-medium text-muted-foreground">
+                            {row.categoryName}
+                          </span>
                         </span>
                         <span className="font-bold whitespace-nowrap">
                           {row.value.toLocaleString("pt-BR")}
