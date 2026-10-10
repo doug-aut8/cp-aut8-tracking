@@ -16,3 +16,4 @@
 - [x] Canhoto de entrega destacável na comanda com toggle em Configurações.
 - [x] Adicionar controles separados para os tamanhos das fontes do canhoto.
 - [x] Mostrar categorias após os nomes dos produtos no modal de cupons e adicionar Selecionar Todos/Nenhum às listas múltiplas.
+- [x] Adicionar presets de período (Hoje, Ontem, Esta Semana, Este Mês, Últimos 7/30/60/90 dias) à página admin-metrics, com Hoje como padrão.
