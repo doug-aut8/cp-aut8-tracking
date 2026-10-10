@@ -5,6 +5,7 @@ import { getUtmParams } from '@/utils/utmCapture';
 import { getVisitorCity } from '@/utils/visitorLocation';
 import { format, subDays, differenceInCalendarDays } from 'date-fns';
 import { cachedFetch } from './queryCache';
+import { getCategoryMaps } from '@/utils/orderItemCategories';
 
 /**
  * Marco temporal: o painel de inteligência ignora eventos anteriores a esta data,
@@ -1425,7 +1426,16 @@ export interface ProductRankRow {
   productId: string;
   productName: string;
   value: number;
+  categoryName: string;
 }
+
+/** Linha intermediária com a categoria ainda como identificador bruto. */
+type RawRankRow = {
+  productId: string;
+  productName: string;
+  value: number;
+  rawCategory: string;
+};
 
 export type ProductMetricKey = 'productViews' | 'productSales';
 
@@ -1478,20 +1488,22 @@ export const getProductRankingMetrics = async (
       return emptyProductRanking;
     }
 
-    const views = new Map<string, { name: string; value: number }>();
-    const sales = new Map<string, { name: string; value: number }>();
+    const views = new Map<string, { name: string; value: number; category: string }>();
+    const sales = new Map<string, { name: string; value: number; category: string }>();
     const dailyViews = new Map<string, number>();
     const dailySales = new Map<string, number>();
 
     const bump = (
-      map: Map<string, { name: string; value: number }>,
+      map: Map<string, { name: string; value: number; category: string }>,
       id: string,
       name: string,
       qty: number,
+      category?: string | null,
     ) => {
       if (!id) return;
-      const entry = map.get(id) ?? { name: name || id, value: 0 };
+      const entry = map.get(id) ?? { name: name || id, value: 0, category: '' };
       if (name) entry.name = name;
+      if (!entry.category && category) entry.category = String(category);
       entry.value += qty;
       map.set(id, entry);
     };
@@ -1501,7 +1513,7 @@ export const getProductRankingMetrics = async (
 
       if (row.event_type === 'view_item') {
         if (row.category === 'brinde') return;
-        bump(views, String(row.product_id ?? ''), row.product_name ?? '', 1);
+        bump(views, String(row.product_id ?? ''), row.product_name ?? '', 1, row.category);
         dailyViews.set(day, (dailyViews.get(day) ?? 0) + 1);
         return;
       }
@@ -1511,7 +1523,7 @@ export const getProductRankingMetrics = async (
         row.items.forEach((it: any) => {
           if (it?.category === 'brinde') return;
           const qty = Number(it?.quantity ?? 1);
-          bump(sales, String(it?.product_id ?? ''), it?.product_name ?? '', qty);
+          bump(sales, String(it?.product_id ?? ''), it?.product_name ?? '', qty, it?.category);
           dailySales.set(day, (dailySales.get(day) ?? 0) + qty);
         });
         return;
@@ -1519,18 +1531,39 @@ export const getProductRankingMetrics = async (
 
       if (row.category === 'brinde') return;
       const qty = Number(row.quantity ?? 1);
-      bump(sales, String(row.product_id ?? ''), row.product_name ?? '', qty);
+      bump(sales, String(row.product_id ?? ''), row.product_name ?? '', qty, row.category);
       dailySales.set(day, (dailySales.get(day) ?? 0) + qty);
     });
 
-    const toRows = (map: Map<string, { name: string; value: number }>): ProductRankRow[] =>
+    const toRows = (
+      map: Map<string, { name: string; value: number; category: string }>,
+    ): RawRankRow[] =>
       Array.from(map.entries())
-        .map(([productId, v]) => ({ productId, productName: v.name, value: v.value }))
+        .map(([productId, v]) => ({
+          productId,
+          productName: v.name,
+          value: v.value,
+          rawCategory: v.category,
+        }))
         .filter((r) => r.value > 0)
         .sort((a, b) => b.value - a.value);
 
     const viewRows = toRows(views);
     const saleRows = toRows(sales);
+
+    // A categoria vem do cadastro atual do produto (menu_items); quando o item
+    // não existe mais lá, usa a categoria gravada no próprio evento.
+    const { itemToCategory, categoryNames } = await getCategoryMaps();
+    const withCategory = (rows: RawRankRow[]): ProductRankRow[] =>
+      rows.map((r) => {
+        const raw = itemToCategory[r.productId] || r.rawCategory;
+        return {
+          productId: r.productId,
+          productName: r.productName,
+          value: r.value,
+          categoryName: raw ? categoryNames[raw] ?? raw : 'Outros',
+        };
+      });
 
     const toSeries = (map: Map<string, number>): DailyMetricRow[] =>
       Array.from(map.entries())
@@ -1538,8 +1571,8 @@ export const getProductRankingMetrics = async (
         .sort((a, b) => (a.date < b.date ? -1 : 1));
 
     return {
-      topViewed: viewRows.slice(0, 5),
-      topSold: saleRows.slice(0, 5),
+      topViewed: withCategory(viewRows).slice(0, 5),
+      topSold: withCategory(saleRows).slice(0, 5),
       totalViews: viewRows.reduce((acc, r) => acc + r.value, 0),
       totalSales: saleRows.reduce((acc, r) => acc + r.value, 0),
       dailyViews: toSeries(dailyViews),
