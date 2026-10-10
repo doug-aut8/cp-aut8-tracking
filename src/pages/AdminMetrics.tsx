@@ -2,7 +2,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { BarChart3 as PageIcon } from "lucide-react";
 import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { subDays, format, parseISO, eachDayOfInterval } from "date-fns";
+import { subDays, format, parseISO, eachDayOfInterval, startOfWeek, startOfMonth } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { DateRange } from "react-day-picker";
 import { ArrowLeft, DollarSign, ShoppingBag, TrendingUp, Package, Users, MapPin, Eye, Star } from "lucide-react";
@@ -16,6 +16,7 @@ import { phoneDigits } from "@/utils/phoneUtils";
 import { Order } from "@/types/order";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { cn } from "@/lib/utils";
 import { DateRangePicker } from "@/components/DateRangePicker";
 import {
   Dialog,
@@ -72,10 +73,39 @@ const topNeighborhoodsValueChartConfig: ChartConfig = {
 };
 
 const AdminMetrics = () => {
+  const today = useMemo(() => new Date(), []);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: subDays(new Date(), 7),
-    to: new Date(),
+    from: today,
+    to: today,
   });
+  const [activePreset, setActivePreset] = useState("Hoje");
+
+  const datePresets = useMemo(
+    () => [
+      { label: "Hoje", range: { from: today, to: today } },
+      { label: "Ontem", range: { from: subDays(today, 1), to: subDays(today, 1) } },
+      {
+        label: "Esta Semana",
+        range: { from: startOfWeek(today, { weekStartsOn: 1 }), to: today },
+      },
+      { label: "Este Mês", range: { from: startOfMonth(today), to: today } },
+      { label: "Últimos 7 dias", range: { from: subDays(today, 6), to: today } },
+      { label: "Últimos 30 dias", range: { from: subDays(today, 29), to: today } },
+      { label: "Últimos 60 dias", range: { from: subDays(today, 59), to: today } },
+      { label: "Últimos 90 dias", range: { from: subDays(today, 89), to: today } },
+    ],
+    [today]
+  );
+
+  const applyPreset = (label: string, range: DateRange | undefined) => {
+    setActivePreset(label);
+    setDateRange(range);
+  };
+
+  const handleDateRangeChange = (range: DateRange | undefined) => {
+    setActivePreset("Personalizado");
+    setDateRange(range);
+  };
 
   const { data: orders = [], isLoading } = useQuery({
     queryKey: ["admin-metrics-orders-firebase", dateRange?.from, dateRange?.to],
@@ -325,12 +355,45 @@ const AdminMetrics = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <AdminPageHeader title="Performance do Restaurante" icon={PageIcon} iconBg="bg-teal-100" iconColor="text-teal-600" />
-      <div className="flex justify-end mb-8">
-        <DateRangePicker
-          dateRange={dateRange}
-          onDateRangeChange={setDateRange}
-          className="w-full sm:w-auto"
-        />
+      <div className="mb-8 space-y-3">
+        <div className="flex justify-end">
+          <DateRangePicker
+            dateRange={dateRange}
+            onDateRangeChange={handleDateRangeChange}
+            className="w-full sm:w-auto"
+            presets={datePresets}
+            activePresetLabel={activePreset}
+          />
+        </div>
+        <div className="flex flex-wrap items-center justify-end gap-2">
+          {datePresets.map((preset) => (
+            <button
+              key={preset.label}
+              type="button"
+              onClick={() => applyPreset(preset.label, preset.range)}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-xs font-medium transition-colors border",
+                activePreset === preset.label
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background text-foreground border-border hover:bg-muted"
+              )}
+            >
+              {preset.label}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setActivePreset("Personalizado")}
+            className={cn(
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-colors border",
+              activePreset === "Personalizado"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-background text-foreground border-border hover:bg-muted"
+            )}
+          >
+            Personalizado
+          </button>
+        </div>
       </div>
 
       {isLoading ? (
