@@ -8,7 +8,6 @@ interface AdminRouteProps {
 }
 
 const AdminRoute: React.FC<AdminRouteProps> = ({ children }) => {
-  return <>{children}</>; // TEMP-BYPASS
   const { currentUser, loading: authLoading } = useAuth();
   const { isAdmin, loading: roleLoading } = useUserRole();
 
