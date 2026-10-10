@@ -1,7 +1,10 @@
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ClipboardList as PageIcon } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import { subDays, startOfMonth } from "date-fns";
+import { cn } from "@/lib/utils";
+
 import { supabase } from "@/integrations/supabase/client";
 import { Order } from "@/types/order";
 import { useToast } from "@/hooks/use-toast";
@@ -58,11 +61,29 @@ const AdminOrders = () => {
   const [searchField, setSearchField] = useState("orderNumber");
   const [searchTerm, setSearchTerm] = useState("");
 
-  const today = new Date();
+  const today = useMemo(() => new Date(), []);
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
     from: today,
     to: today
   });
+  const [activePreset, setActivePreset] = useState("Hoje");
+
+  const datePresets = useMemo(
+    () => [
+      { label: "Hoje", range: { from: today, to: today } },
+      { label: "Ontem", range: { from: subDays(today, 1), to: subDays(today, 1) } },
+      { label: "Últimos 7 dias", range: { from: subDays(today, 6), to: today } },
+      { label: "Últimos 30 dias", range: { from: subDays(today, 29), to: today } },
+      { label: "Este Mês", range: { from: startOfMonth(today), to: today } },
+    ],
+    [today]
+  );
+
+  const applyPreset = (label: string, range: DateRange | undefined) => {
+    setActivePreset(label);
+    setDateRange(range);
+  };
+
 
   const loadOrders = async (status: string, dateRange: DateRange | undefined) => {
     try {
@@ -214,7 +235,9 @@ const AdminOrders = () => {
 
   const handleDateRangeChange = (range: DateRange | undefined) => {
     setDateRange(range);
+    setActivePreset("Personalizado");
   };
+
 
   const handleViewOrder = (order: Order) => {
     setSelectedOrder(order);
@@ -417,10 +440,44 @@ const AdminOrders = () => {
               dateRange={dateRange}
               onDateRangeChange={handleDateRangeChange}
               className="w-full"
+              presets={datePresets}
+              activePresetLabel={activePreset}
             />
+
           </div>
         </div>
+
+        <div className="flex flex-wrap items-center gap-2">
+          {datePresets.map((preset) => (
+            <button
+              key={preset.label}
+              type="button"
+              onClick={() => applyPreset(preset.label, preset.range)}
+              className={cn(
+                "px-3 py-1.5 rounded-full text-xs font-medium transition-colors border",
+                activePreset === preset.label
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background text-foreground border-border hover:bg-muted"
+              )}
+            >
+              {preset.label}
+            </button>
+          ))}
+          <button
+            type="button"
+            onClick={() => setActivePreset("Personalizado")}
+            className={cn(
+              "px-3 py-1.5 rounded-full text-xs font-medium transition-colors border",
+              activePreset === "Personalizado"
+                ? "bg-primary text-primary-foreground border-primary"
+                : "bg-background text-foreground border-border hover:bg-muted"
+            )}
+          >
+            Personalizado
+          </button>
+        </div>
       </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
         {filteredOrders.map((order) => (
