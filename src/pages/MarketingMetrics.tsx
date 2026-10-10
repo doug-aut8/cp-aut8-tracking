@@ -84,6 +84,7 @@ import { cn } from "@/lib/utils";
 interface MetricCardProps {
   label: string;
   value: string;
+  subtitle?: string;
   change?: string | null;
   isPositive?: boolean;
   className?: string;
@@ -95,6 +96,7 @@ interface MetricCardProps {
 const MetricCard: React.FC<MetricCardProps> = ({
   label,
   value,
+  subtitle,
   change,
   isPositive = true,
   className,
@@ -123,6 +125,11 @@ const MetricCard: React.FC<MetricCardProps> = ({
       </div>
       <div>
         <span className="block text-base font-bold tracking-tight whitespace-nowrap">{value}</span>
+        {subtitle ? (
+          <span className="mt-1 block truncate text-xs font-medium text-muted-foreground">
+            {subtitle}
+          </span>
+        ) : null}
         <div className="flex items-center justify-between gap-3 mt-2">
           {change ? (
             <span
@@ -1875,6 +1882,11 @@ const MarketingMetrics: React.FC = () => {
                       ? `${productRanking.topViewed[0].productName} — ${formatNumber(productRanking.topViewed[0].value)}`
                       : "Sem dados"
                 }
+                subtitle={
+                  !productsLoading && productRanking?.topViewed[0]
+                    ? `Categoria: ${productRanking.topViewed[0].categoryName}`
+                    : undefined
+                }
                 selected={selectedProductMetric === "productViews"}
                 onClick={() => {
                   setSelectedProductMetric("productViews");
@@ -1890,6 +1902,11 @@ const MarketingMetrics: React.FC = () => {
                     : productRanking?.topSold[0]
                       ? `${productRanking.topSold[0].productName} — ${formatNumber(productRanking.topSold[0].value)}`
                       : "Sem dados"
+                }
+                subtitle={
+                  !productsLoading && productRanking?.topSold[0]
+                    ? `Categoria: ${productRanking.topSold[0].categoryName}`
+                    : undefined
                 }
                 selected={selectedProductMetric === "productSales"}
                 onClick={() => {
@@ -1936,11 +1953,16 @@ const MarketingMetrics: React.FC = () => {
                     ).map((row, i) => (
                       <div
                         key={row.productId}
-                        className="flex items-center justify-between gap-3 border-b border-border pb-2 last:border-0 text-sm"
+                        className="flex items-start justify-between gap-3 border-b border-border pb-2 last:border-0 text-sm"
                       >
-                        <span className="truncate">
-                          <span className="text-muted-foreground mr-2">{i + 1}.</span>
-                          {row.productName}
+                        <span className="min-w-0">
+                          <span className="block truncate">
+                            <span className="text-muted-foreground mr-2">{i + 1}.</span>
+                            {row.productName}
+                          </span>
+                          <span className="block text-xs font-medium text-muted-foreground">
+                            {row.categoryName}
+                          </span>
                         </span>
                         <span className="font-bold whitespace-nowrap">
                           {row.value.toLocaleString("pt-BR")}
