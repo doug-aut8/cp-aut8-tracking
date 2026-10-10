@@ -84,6 +84,7 @@ import { cn } from "@/lib/utils";
 interface MetricCardProps {
   label: string;
   value: string;
+  subtitle?: string;
   change?: string | null;
   isPositive?: boolean;
   className?: string;
@@ -95,6 +96,7 @@ interface MetricCardProps {
 const MetricCard: React.FC<MetricCardProps> = ({
   label,
   value,
+  subtitle,
   change,
   isPositive = true,
   className,
@@ -123,6 +125,11 @@ const MetricCard: React.FC<MetricCardProps> = ({
       </div>
       <div>
         <span className="block text-base font-bold tracking-tight whitespace-nowrap">{value}</span>
+        {subtitle ? (
+          <span className="mt-1 block truncate text-xs font-medium text-muted-foreground">
+            {subtitle}
+          </span>
+        ) : null}
         <div className="flex items-center justify-between gap-3 mt-2">
           {change ? (
             <span
