@@ -1,5 +1,5 @@
 ----------------------------------------------------
-**V.1.155.2** - doug-aut8/cp-aut8-tracking - 09/10/2026**
+**V.1.156.2** - doug-aut8/cp-aut8-tracking - 10/10/2026**
 ----------------------------------------------------
-- Adicionado o preset "Ultimos 7 dias" no seletor de periodos
+- Adicionada em "Produtos" as categorias as quais o produto pertence.
 
