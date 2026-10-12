@@ -800,6 +800,7 @@ export type Database = {
           atualizado_em: string | null
           atualizado_em_banco: string | null
           bairro: string | null
+          browser: string | null
           cidade: string | null
           codigo_curto: string | null
           codigo_pedido: string | null
@@ -808,6 +809,7 @@ export type Database = {
           data_criacao: string | null
           data_nascimento: string | null
           desconto: number | null
+          device_type: string | null
           endereco_entrega: string | null
           firebase_id: string | null
           frete: number | null
@@ -820,6 +822,7 @@ export type Database = {
           nome_cliente: string | null
           observacoes: string | null
           origem: string | null
+          os: string | null
           payment_status: string | null
           status_atual: string | null
           subtotal: number | null
@@ -840,6 +843,7 @@ export type Database = {
           atualizado_em?: string | null
           atualizado_em_banco?: string | null
           bairro?: string | null
+          browser?: string | null
           cidade?: string | null
           codigo_curto?: string | null
           codigo_pedido?: string | null
@@ -848,6 +852,7 @@ export type Database = {
           data_criacao?: string | null
           data_nascimento?: string | null
           desconto?: number | null
+          device_type?: string | null
           endereco_entrega?: string | null
           firebase_id?: string | null
           frete?: number | null
@@ -860,6 +865,7 @@ export type Database = {
           nome_cliente?: string | null
           observacoes?: string | null
           origem?: string | null
+          os?: string | null
           payment_status?: string | null
           status_atual?: string | null
           subtotal?: number | null
@@ -880,6 +886,7 @@ export type Database = {
           atualizado_em?: string | null
           atualizado_em_banco?: string | null
           bairro?: string | null
+          browser?: string | null
           cidade?: string | null
           codigo_curto?: string | null
           codigo_pedido?: string | null
@@ -888,6 +895,7 @@ export type Database = {
           data_criacao?: string | null
           data_nascimento?: string | null
           desconto?: number | null
+          device_type?: string | null
           endereco_entrega?: string | null
           firebase_id?: string | null
           frete?: number | null
@@ -900,6 +908,7 @@ export type Database = {
           nome_cliente?: string | null
           observacoes?: string | null
           origem?: string | null
+          os?: string | null
           payment_status?: string | null
           status_atual?: string | null
           subtotal?: number | null
@@ -949,13 +958,16 @@ export type Database = {
       }
       product_events: {
         Row: {
+          browser: string | null
           category: string | null
           channel: string | null
           cidade: string | null
           created_at: string
+          device_type: string | null
           event_type: string
           id: string
           items: Json | null
+          os: string | null
           price: number | null
           product_id: string
           product_name: string
@@ -970,13 +982,16 @@ export type Database = {
           visitor_id: string | null
         }
         Insert: {
+          browser?: string | null
           category?: string | null
           channel?: string | null
           cidade?: string | null
           created_at?: string
+          device_type?: string | null
           event_type: string
           id?: string
           items?: Json | null
+          os?: string | null
           price?: number | null
           product_id: string
           product_name: string
@@ -991,13 +1006,16 @@ export type Database = {
           visitor_id?: string | null
         }
         Update: {
+          browser?: string | null
           category?: string | null
           channel?: string | null
           cidade?: string | null
           created_at?: string
+          device_type?: string | null
           event_type?: string
           id?: string
           items?: Json | null
+          os?: string | null
           price?: number | null
           product_id?: string
           product_name?: string
@@ -1435,6 +1453,10 @@ export type Database = {
           total_visits: number
           unique_visitors: number
         }[]
+      }
+      mkt_device_breakdown: {
+        Args: { p_end: string; p_start: string }
+        Returns: Json
       }
       mkt_funnel_overview: {
         Args: {
