@@ -1,3 +1,4 @@
+import { getDeviceInfo } from "@/utils/deviceInfo";
 import { supabase } from "@/integrations/supabase/client";
 import { getCurrentUser } from "@/integrations/supabase/session";
 import { Order, CreateOrderRequest, UpdateOrderRequest } from "@/types/order";
@@ -214,6 +215,7 @@ export const createOrder = async (
     data_criacao: nowIso,
     atualizado_em: nowIso,
     atualizado_em_banco: nowIso,
+    ...getDeviceInfo(),
   };
 
   const { data, error } = await supabase

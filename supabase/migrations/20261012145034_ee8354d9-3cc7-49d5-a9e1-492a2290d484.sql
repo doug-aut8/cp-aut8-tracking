@@ -1,0 +1,1 @@
+ALTER FUNCTION public.mkt_device_breakdown(timestamptz, timestamptz) SECURITY INVOKER;

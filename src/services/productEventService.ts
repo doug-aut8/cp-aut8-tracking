@@ -1,3 +1,4 @@
+import { getDeviceInfo } from '@/utils/deviceInfo';
 import { shouldTrackAnalytics } from '@/utils/analyticsOptOut';
 import { supabase } from '@/integrations/supabase/client';
 import { getSessionId, getVisitorId } from '@/utils/sessionId';
@@ -107,6 +108,7 @@ export const trackProductEvent = (payload: ProductEventPayload) => {
       cidade: getVisitorCity(),
       referrer: getReferrer(),
       channel: getChannel(),
+      ...getDeviceInfo(),
     })
     .then(({ error }) => {
       if (error) console.error('Error tracking product event:', error);
@@ -162,6 +164,7 @@ export const trackCartEvent = (
       cidade: getVisitorCity(),
       referrer: getReferrer(),
       channel: getChannel(),
+      ...getDeviceInfo(),
     })
     .then(({ error }) => {
       if (error) console.error('Error tracking cart event:', error);

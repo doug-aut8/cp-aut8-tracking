@@ -1,3 +1,4 @@
+import DeviceMetrics from "@/components/admin/DeviceMetrics";
 import { startOfDay, endOfDay } from "date-fns";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
@@ -1244,6 +1245,7 @@ const MarketingMetrics: React.FC = () => {
               <SelectItem value="vendas">Vendas</SelectItem>
               <SelectItem value="produtos">Produtos</SelectItem>
               <SelectItem value="funil">Funil</SelectItem>
+              <SelectItem value="dispositivos">Dispositivos</SelectItem>
               <SelectItem value="ga4">Google Analytics</SelectItem>
             </SelectContent>
           </Select>
@@ -2043,6 +2045,10 @@ const MarketingMetrics: React.FC = () => {
               </CardContent>
             </Card>
           </>
+        )}
+
+        {metricType === "dispositivos" && dateRange?.from && dateRange?.to && (
+          <DeviceMetrics from={dateRange.from} to={dateRange.to} />
         )}
 
         {metricType === "funil" && (
