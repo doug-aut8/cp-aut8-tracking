@@ -1,4 +1,4 @@
-project_id = "aoiivlzufzqqyqolkjgq"
+project_id = "bmlqjunwvgtrubqtplhk"
 
 [functions.registrar-uso-cupom]
 verify_jwt = false
