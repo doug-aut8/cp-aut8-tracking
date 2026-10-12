@@ -1,0 +1,1 @@
+ALTER TABLE public.empresa_info ADD COLUMN IF NOT EXISTS cnpj text;

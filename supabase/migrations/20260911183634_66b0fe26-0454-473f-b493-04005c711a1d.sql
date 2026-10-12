@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.mkt_avg_visit_duration(timestamp with time zone, timestamp with time zone, text, text) TO anon;
