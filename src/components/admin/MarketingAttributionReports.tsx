@@ -137,7 +137,7 @@ export function MarketingAttributionReports({ start, end }: { start: string; end
   const [includeGifts, setIncludeGifts] = useState(DEFAULT_INCLUDE_CAMPAIGN_GIFTS);
   const { isAdmin } = useUserRole();
 
-  const report = useQuery({ queryKey: ["marketing-attribution", start, end, dimension], staleTime: 60_000, queryFn: async () => {
+  const report = useQuery<MarketingTableRow[]>({ queryKey: ["marketing-attribution", start, end, dimension], staleTime: 60_000, queryFn: async () => {
     switch (dimension) {
       case "campaign": {
         const [rows, investments] = await Promise.all([fetchSalesByCampaign(start, end), fetchCampaignInvestments(start, end)]);
