@@ -1,0 +1,1 @@
+ALTER TABLE public.sugestoes_regras ADD COLUMN IF NOT EXISTS desconto_valor numeric NOT NULL DEFAULT 0;

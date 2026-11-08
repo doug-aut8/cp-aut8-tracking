@@ -1,0 +1,1 @@
+ALTER TABLE public.pedidos_sabor_delivery ADD COLUMN IF NOT EXISTS troco_para numeric;

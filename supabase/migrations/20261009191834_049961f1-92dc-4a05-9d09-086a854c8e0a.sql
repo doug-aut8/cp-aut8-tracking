@@ -1,0 +1,1 @@
+ALTER TABLE public.empresa_info ADD COLUMN IF NOT EXISTS pix_nome_recebedor text, ADD COLUMN IF NOT EXISTS pix_chave text, ADD COLUMN IF NOT EXISTS pix_cidade text;
