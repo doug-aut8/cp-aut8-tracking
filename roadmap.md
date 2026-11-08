@@ -1,5 +1,8 @@
 # Roadmap
 
+- [ ] Separar custos de mídia, brindes e total em Campanhas, com toggle ligado por padrão e CMV dinâmico no período principal.
+- [ ] Validar cálculo, troca de períodos e salvamento exclusivo de mídia; verificar acesso administrativo quando disponível.
+
 - [x] Incluir no modal de investimento o preenchimento automático do CMV dos brindes da campanha no período escolhido e validar o cálculo (5 testes aprovados).
 - [ ] Verificar o salvamento dos brindes na conta administrativa — bloqueado: autenticação externa indisponível; a prévia redireciona para login.
 
