@@ -54,8 +54,8 @@ function CampaignInvestmentModal({ campaign, periodStart, periodEnd, open, onClo
       toast({ title: "A data final deve ser igual ou posterior à data inicial.", variant: "destructive" });
       return;
     }
-    if (!isFinite(mediaCost) || mediaCost < 0 || !isFinite(valorNumerico) || valorNumerico <= 0) {
-      toast({ title: "Informe um valor investido maior que zero.", variant: "destructive" });
+    if (!valor.trim() || !isFinite(valorNumerico) || valorNumerico < 0) {
+      toast({ title: "Informe um valor investido válido (zero ou maior).", variant: "destructive" });
       return;
     }
     setSaving(true);
