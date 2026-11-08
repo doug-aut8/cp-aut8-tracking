@@ -1,7 +1,11 @@
 # Roadmap
 
+- [x] Separar custos de mídia, brindes e total em Campanhas, com toggle ligado por padrão e CMV dinâmico no período principal.
+- [x] Validar cálculo (11 testes), troca de períodos, toggle e salvamento exclusivo de mídia com dados controlados; apresentação conferida em computador/celular.
+- [ ] Conferir campanhas e salvamento com dados reais na conta administrativa — bloqueado: autenticação externa indisponível nesta prévia.
+
 - [x] Incluir no modal de investimento o preenchimento automático do CMV dos brindes da campanha no período escolhido e validar o cálculo (5 testes aprovados).
-- [ ] Verificar o salvamento dos brindes na conta administrativa — bloqueado: autenticação externa indisponível; a prévia redireciona para login.
+- [x] Substituir o salvamento fixo de brindes pelo cálculo dinâmico no relatório; o modal registra somente mídia.
 
 - [ ] Implementar apenas as métricas sem investimento: sessões, receita por visitante/sessão e taxa de utilização de cupons, com filtros e comparação.
 - [ ] Testar cálculos e verificar a apresentação das novas métricas; cadastro de custos de campanha fora do escopo.

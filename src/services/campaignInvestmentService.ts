@@ -1,9 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
 import { fetchSalesSummary } from "@/services/salesAnalyticsService";
-import { loadCampaignGiftCost } from "./campaignInvestmentCalculation";
+import { loadCampaignGiftCost, loadCampaignGiftCosts } from "./campaignInvestmentCalculation";
 
 export const fetchCampaignGiftCost = (start: string, end: string, campaign: string): Promise<number> =>
   loadCampaignGiftCost(start, end, campaign, fetchSalesSummary);
+
+export const fetchCampaignGiftCosts = (start: string, end: string, campaigns: string[]) =>
+  loadCampaignGiftCosts(start, end, campaigns, fetchSalesSummary);
 
 export interface CampaignInvestment {
   id: string;
@@ -68,6 +71,7 @@ export const saveCampaignInvestment = async (investment: {
     utm_campaign: investment.utm_campaign,
     data_inicio: investment.data_inicio,
     data_fim: investment.data_fim,
+    // Gift CMV is calculated dynamically in the report, never stored in media spend.
     valor_investido: investment.valor_investido,
   };
 

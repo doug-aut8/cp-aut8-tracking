@@ -1,6 +1,6 @@
 # Project Architecture
 
-- Campaign investment gift autofill reuses `fetchSalesSummary` with the modal's campaign and dates, and saves media plus optional gift CMV in the existing investment amount; this keeps campaign totals consistent without subtracting gift costs twice from sales.
+- Campaign investments store media spend only; campaign reports reuse `fetchSalesSummary` per campaign and main report dates for dynamic gift CMV and derive CAC/ROAS/LTV:CAC from the combined cost, avoiding frozen or double-counted gifts.
 
 - Resolve scheduled and manual store operation in `useStoreOpen`, with shared React Query caches and an admin-only `configuracoes` override; this keeps both admin controls, public status and checkout aligned without changing weekly hours.
 
