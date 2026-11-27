@@ -1,0 +1,1 @@
+CREATE POLICY whatsapp_challenges_service_only ON public.whatsapp_auth_challenges FOR ALL TO service_role USING (true) WITH CHECK (true);

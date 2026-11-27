@@ -1,0 +1,2 @@
+GRANT EXECUTE ON FUNCTION public.whatsapp_phone_key(text) TO authenticated;
+CREATE UNIQUE INDEX IF NOT EXISTS users_whatsapp_identity_unique ON public.users (public.whatsapp_phone_key(phone)) WHERE phone IS NOT NULL AND btrim(phone) <> '';
