@@ -340,6 +340,14 @@ const ProductVariationDialog: React.FC<ProductVariationDialogProps> = ({
     return basePrice;
   };
 
+  const modalTotalPrice = (() => {
+    const base = hasSizes && selectedSize ? selectedSize.price : (item?.price || 0);
+    const extras = selectedVariationGroups.flatMap(g => g.variations).reduce(
+      (sum, v: any) => sum + (v.additionalPrice || 0) * (v.quantity || 0), 0);
+    const border = selectedBorder?.additionalPrice || 0;
+    return (base + extras + border) * itemQuantity;
+  })();
+
   useEffect(() => {
     const key = pendingScrollSectionRef.current;
     if (!key || !expandedGroups[key]) return;
@@ -826,9 +834,9 @@ const ProductVariationDialog: React.FC<ProductVariationDialogProps> = ({
 
           {/* Rodapé fixo: quantidade à esquerda, adicionar ao carrinho à direita */}
           <div className="px-5 sm:px-6 py-[7px] border-t flex-shrink-0 bg-white">
-            <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center justify-between gap-2">
               {!(item.variationGroups && item.variationGroups.length > 0 && item.variationGroups.some(g => g?.hideMainQuantitySelector && (groupVariations[g.id]?.length ?? 0) > 0)) ? (
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 flex-shrink-0">
                   <button
                     type="button"
                     aria-label="Diminuir quantidade"
@@ -838,7 +846,7 @@ const ProductVariationDialog: React.FC<ProductVariationDialogProps> = ({
                   >
                     <Minus className="h-4 w-4" />
                   </button>
-                  <span className="h-8 min-w-[2.2rem] px-2 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-extrabold text-sm">
+                  <span className="h-7 min-w-[1.9rem] px-1.5 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-extrabold text-sm">
                     {itemQuantity}
                   </span>
                   <button
@@ -851,10 +859,13 @@ const ProductVariationDialog: React.FC<ProductVariationDialogProps> = ({
                   </button>
                 </div>
               ) : <div />}
+              <span className="flex-1 text-center font-extrabold text-base text-foreground whitespace-nowrap" aria-live="polite">
+                {formatCurrency(modalTotalPrice)}
+              </span>
               <Button 
                 onClick={handleAddToCart} 
                 disabled={!isValid}
-                className="bg-food-green hover:bg-opacity-90 text-white font-bold text-sm rounded-xl h-9 px-4 flex-shrink-0"
+                className="bg-food-green hover:bg-opacity-90 text-white font-bold text-sm rounded-xl h-9 px-3 flex-shrink-0"
 
               >
                 {confirmLabel || "Adicionar ao carrinho"}
