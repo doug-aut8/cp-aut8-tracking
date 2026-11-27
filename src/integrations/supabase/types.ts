@@ -10,14 +10,13 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "14.5"
+    PostgrestVersion: "14.4"
   }
   public: {
     Tables: {
       campanhas_investimentos: {
         Row: {
           created_at: string
-          custo_brindes: number
           data_fim: string
           data_inicio: string
           id: string
@@ -27,7 +26,6 @@ export type Database = {
         }
         Insert: {
           created_at?: string
-          custo_brindes?: number
           data_fim: string
           data_inicio: string
           id?: string
@@ -37,7 +35,6 @@ export type Database = {
         }
         Update: {
           created_at?: string
-          custo_brindes?: number
           data_fim?: string
           data_inicio?: string
           id?: string
@@ -221,7 +218,7 @@ export type Database = {
           limite_uso: number | null
           nome: string
           origem: string | null
-          primeira_compra_apenas: boolean | null
+          primeira_compra_apenas: boolean
           produto_brinde: Json | null
           produtos_requeridos: Json | null
           tipo: string
@@ -241,7 +238,7 @@ export type Database = {
           limite_uso?: number | null
           nome: string
           origem?: string | null
-          primeira_compra_apenas?: boolean | null
+          primeira_compra_apenas?: boolean
           produto_brinde?: Json | null
           produtos_requeridos?: Json | null
           tipo: string
@@ -261,7 +258,7 @@ export type Database = {
           limite_uso?: number | null
           nome?: string
           origem?: string | null
-          primeira_compra_apenas?: boolean | null
+          primeira_compra_apenas?: boolean
           produto_brinde?: Json | null
           produtos_requeridos?: Json | null
           tipo?: string
@@ -360,6 +357,38 @@ export type Database = {
         }
         Relationships: []
       }
+      empresa_credenciais: {
+        Row: {
+          created_at: string
+          empresa_id: string
+          id: string
+          superfrete_token: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          empresa_id: string
+          id?: string
+          superfrete_token?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          empresa_id?: string
+          id?: string
+          superfrete_token?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "empresa_credenciais_empresa_id_fkey"
+            columns: ["empresa_id"]
+            isOneToOne: true
+            referencedRelation: "empresa_info"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       empresa_info: {
         Row: {
           bairro: string | null
@@ -387,7 +416,6 @@ export type Database = {
           sobre: string | null
           superfrete_sandbox: boolean
           superfrete_servicos: Json
-          superfrete_token: string | null
           telefone: string | null
           updated_at: string | null
           user_id: string
@@ -419,7 +447,6 @@ export type Database = {
           sobre?: string | null
           superfrete_sandbox?: boolean
           superfrete_servicos?: Json
-          superfrete_token?: string | null
           telefone?: string | null
           updated_at?: string | null
           user_id: string
@@ -451,7 +478,6 @@ export type Database = {
           sobre?: string | null
           superfrete_sandbox?: boolean
           superfrete_servicos?: Json
-          superfrete_token?: string | null
           telefone?: string | null
           updated_at?: string | null
           user_id?: string
@@ -540,37 +566,28 @@ export type Database = {
         Row: {
           contagem_pizzas: number
           criado_em: string | null
-          eventos: Json
           id: string
           nome_cliente: string | null
-          regra_id: string | null
           telefone_cliente: string
           ultima_atualizacao: string | null
-          user_id: string | null
           valor_gasto_pizzas: number
         }
         Insert: {
           contagem_pizzas?: number
           criado_em?: string | null
-          eventos?: Json
           id?: string
           nome_cliente?: string | null
-          regra_id?: string | null
           telefone_cliente: string
           ultima_atualizacao?: string | null
-          user_id?: string | null
           valor_gasto_pizzas?: number
         }
         Update: {
           contagem_pizzas?: number
           criado_em?: string | null
-          eventos?: Json
           id?: string
           nome_cliente?: string | null
-          regra_id?: string | null
           telefone_cliente?: string
           ultima_atualizacao?: string | null
-          user_id?: string | null
           valor_gasto_pizzas?: number
         }
         Relationships: []
@@ -685,12 +702,13 @@ export type Database = {
           created_at: string
           deeplink: string | null
           description: string
-          display_order: number | null
+          display_order: number
           frete_gratis: boolean | null
           has_variations: boolean | null
           height_cm: number | null
           hidden_in_menu: boolean
           id: string
+          "id-teste": string | null
           ignore_size_template: boolean
           image: string
           is_half_pizza: boolean | null
@@ -724,12 +742,13 @@ export type Database = {
           created_at?: string
           deeplink?: string | null
           description?: string
-          display_order?: number | null
+          display_order?: number
           frete_gratis?: boolean | null
           has_variations?: boolean | null
           height_cm?: number | null
           hidden_in_menu?: boolean
           id: string
+          "id-teste"?: string | null
           ignore_size_template?: boolean
           image?: string
           is_half_pizza?: boolean | null
@@ -763,12 +782,13 @@ export type Database = {
           created_at?: string
           deeplink?: string | null
           description?: string
-          display_order?: number | null
+          display_order?: number
           frete_gratis?: boolean | null
           has_variations?: boolean | null
           height_cm?: number | null
           hidden_in_menu?: boolean
           id?: string
+          "id-teste"?: string | null
           ignore_size_template?: boolean
           image?: string
           is_half_pizza?: boolean | null
@@ -1159,7 +1179,6 @@ export type Database = {
           capi_ativo: boolean
           gtm_container_id: string | null
           id: number
-          meta_access_token: string | null
           meta_pixel_id: string | null
           meta_test_event_code: string | null
           updated_at: string | null
@@ -1168,7 +1187,6 @@ export type Database = {
           capi_ativo?: boolean
           gtm_container_id?: string | null
           id?: number
-          meta_access_token?: string | null
           meta_pixel_id?: string | null
           meta_test_event_code?: string | null
           updated_at?: string | null
@@ -1177,10 +1195,33 @@ export type Database = {
           capi_ativo?: boolean
           gtm_container_id?: string | null
           id?: number
-          meta_access_token?: string | null
           meta_pixel_id?: string | null
           meta_test_event_code?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      tags_rastreamento_privado: {
+        Row: {
+          created_at: string
+          id: string
+          meta_access_token: string | null
+          tag_id: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          meta_access_token?: string | null
+          tag_id: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          meta_access_token?: string | null
+          tag_id?: number
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1628,6 +1669,13 @@ export type Database = {
             }
             Returns: number
           }
+      mkt_utm_options: {
+        Args: never
+        Returns: {
+          kind: string
+          value: string
+        }[]
+      }
       mkt_visit_metrics:
         | {
             Args: {
